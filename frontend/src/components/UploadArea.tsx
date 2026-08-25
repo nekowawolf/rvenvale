@@ -83,7 +83,7 @@ export default function UploadArea({ onUploadSuccess }: UploadAreaProps) {
       </div>
 
       <div
-        className={`relative w-full h-48 border-2 border-dashed rounded-xl flex flex-col items-center justify-center p-6 text-center transition-all duration-200 cursor-pointer ${
+        className={`relative w-full h-48 border-2 border-dashed rounded-xl flex flex-col items-center justify-center p-6 text-center cursor-pointer ${
           dragActive
             ? "border-blue-500 bg-blue-500/5"
             : "border-[var(--border-divider)] hover:border-blue-400 hover:bg-[var(--hover-bg)]"

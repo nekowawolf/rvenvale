@@ -350,9 +350,20 @@ export default function ImagesTable({
                   Cancel
                 </button>
                 <button
-                  onClick={confirmDelete}
+                  onClick={() => {
+                    if (selectedId === "6a8d71b30dd629d74baee78e") {
+                      toast.info("Delete is disabled for demo images.");
+                      setShowConfirmModal(false);
+                      return;
+                    }
+                    confirmDelete();
+                  }}
                   disabled={isDeleting}
-                  className="cursor-pointer bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 disabled:opacity-50 transition-colors duration-200 text-sm font-medium"
+                  className={`px-6 py-2 rounded-lg transition-colors duration-200 text-sm font-medium ${
+                    selectedId === "6a8d71b30dd629d74baee78e"
+                      ? "bg-red-600/50 text-white/70 cursor-not-allowed"
+                      : "bg-red-600 text-white hover:bg-red-700 cursor-pointer disabled:opacity-50"
+                  }`}
                 >
                   {isDeleting ? "Deleting..." : "Delete"}
                 </button>

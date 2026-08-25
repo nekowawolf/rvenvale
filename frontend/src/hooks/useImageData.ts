@@ -18,10 +18,19 @@ export const useImageData = () => {
       setData(validData);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Failed to fetch images";
-      // If backend is unreachable (live demo), ignore error and show empty state
       if (message.includes("Failed to fetch") || message.includes("NetworkError")) {
         setError(null);
-        setData([]);
+        setData([
+          {
+            _id: "6a8d71b30dd629d74baee78e",
+            filename: "CDN-Test-Image.png",
+            url: "https://nekowawolf.github.io/rvenvale-cdn/images/2026/1787654577_CDN-Test-Image.webp",
+            size: 61586,
+            sha: "a732d74c22a58b6f559bc8928ca186a0c4fda049",
+            path: "images/2026/1787654577_CDN-Test-Image.webp",
+            created_at: "2026-08-25T10:42:59.425Z",
+          },
+        ]);
       } else {
         setError(message);
       }

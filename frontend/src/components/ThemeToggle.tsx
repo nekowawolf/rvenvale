@@ -11,6 +11,20 @@ export default function ThemeToggle() {
   }, []);
 
   const toggleTheme = () => {
+    const css = document.createElement("style");
+    css.appendChild(
+      document.createTextNode(
+        `* {
+         -webkit-transition: none !important;
+         -moz-transition: none !important;
+         -o-transition: none !important;
+         -ms-transition: none !important;
+         transition: none !important;
+        }`
+      )
+    );
+    document.head.appendChild(css);
+
     const html = document.documentElement;
     if (html.classList.contains("darkmode")) {
       html.classList.remove("darkmode");
@@ -21,6 +35,9 @@ export default function ThemeToggle() {
       localStorage.setItem("darkmode", "active");
       setIsDark(true);
     }
+
+    const _ = window.getComputedStyle(css).opacity;
+    document.head.removeChild(css);
   };
 
   return (
