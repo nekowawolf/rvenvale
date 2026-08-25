@@ -28,7 +28,7 @@ func UploadImageHandler(c *fiber.Ctx) error {
 	}
 	defer file.Close()
 
-	cdnURL, sha, path, err := utils.UploadToGitHub(file, fileHeader)
+	cdnURL, sha, path, finalSize, err := utils.UploadToGitHub(file, fileHeader)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error": err.Error(),
@@ -40,7 +40,7 @@ func UploadImageHandler(c *fiber.Ctx) error {
 		cdnURL,
 		sha,
 		path,
-		fileHeader.Size,
+		finalSize,
 	)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -54,7 +54,7 @@ func UploadImageHandler(c *fiber.Ctx) error {
 			"_id":      insertedID,
 			"filename": fileHeader.Filename,
 			"url":      cdnURL,
-			"size":     fileHeader.Size,
+			"size":     finalSize,
 			"sha":      sha,
 			"path":     path,
 		},

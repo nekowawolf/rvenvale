@@ -17,6 +17,7 @@ import { FiSearch } from "react-icons/fi";
 import { createPortal } from "react-dom";
 import { Image as ImageInterface } from "@/types/image";
 import NextImage from "next/image";
+import { toast } from "sonner";
 
 interface ImagesTableProps {
   data: ImageInterface[];
@@ -141,6 +142,9 @@ export default function ImagesTable({
     setIsDeleting(true);
     try {
       await onDelete(selectedId);
+      toast.success("Image deleted successfully!");
+    } catch (err: any) {
+      toast.error(err.message || "Failed to delete image");
     } finally {
       setIsDeleting(false);
       setShowConfirmModal(false);
@@ -153,8 +157,10 @@ export default function ImagesTable({
     try {
       await navigator.clipboard.writeText(url);
       setCopiedUrl(url);
+      toast.success("URL copied to clipboard!");
       setTimeout(() => setCopiedUrl(null), 2000);
     } catch {
+      toast.error("Failed to copy URL");
     }
   };
 
@@ -200,7 +206,7 @@ export default function ImagesTable({
 
       {/* Table */}
       {!loading && !error && (
-        <div className="overflow-x-auto rounded-xl bg-[var(--fill-color)] border border-[var(--border-divider)]">
+        <div className="overflow-x-auto rounded-xl bg-[var(--fill-color)] border border-[var(--border-divider)] pb-1">
           <table className="w-full text-left text-sm">
             <thead className="bg-[var(--card-color2)] border-b border-[var(--border-divider)]">
               <tr>
@@ -243,18 +249,18 @@ export default function ImagesTable({
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => copyToClipboard(item.url)}
-                          className="cursor-pointer flex items-center gap-1.5 px-2.5 py-1.5 text-xs bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-200 flex-shrink-0"
+                          className="cursor-pointer flex items-center gap-2 px-3 py-1.5 text-xs bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 whitespace-nowrap"
                           title="Copy URL"
                         >
                           {copiedUrl === item.url ? (
-                            <FaCheck size={10} className="text-blue-600" />
+                            <FaCheck size={12} className="text-green-400" />
                           ) : (
-                            <FaCopy size={10} className="text-blue-600" />
+                            <FaCopy size={12} />
                           )}
-                          {copiedUrl === item.url ? "Copied!" : "Copy"}
+                          Copy URL
                         </button>
-                        <span className="text-muted text-xs hidden md:block truncate max-w-[140px]">
-                          {item.url}
+                        <span className="text-secondary text-xs hidden sm:block">
+                          {item.url.length > 30 ? `${item.url.substring(0, 30)}...` : item.url}
                         </span>
                       </div>
                     </td>
@@ -326,29 +332,27 @@ export default function ImagesTable({
         typeof document !== "undefined" &&
         createPortal(
           <div className="fixed inset-0 flex items-center justify-center bg-[var(--overlay-bg)] z-50 p-4">
-            <div className="dropdown-bg rounded-xl shadow-xl p-6 max-w-sm w-full text-center border border-[var(--border-divider)]">
-              <div className="w-12 h-12 rounded-full bg-red-500/10 flex items-center justify-center mx-auto mb-4">
-                <FaTrash size={20} className="text-blue-600" />
-              </div>
+            <div className="dropdown-bg rounded-lg shadow-lg p-6 max-w-sm w-full text-center border border-[var(--border-divider)]">
+              <FaTrash size={32} className="text-red-600 mx-auto mb-4" />
               <h3 className="text-primary text-lg font-semibold mb-2">Delete Image</h3>
-              <p className="text-secondary text-sm mb-3">
-                Are you sure you want to delete this image? This action cannot be undone.
+              <p className="text-secondary mb-4">
+                Are you sure you want to delete this image?
               </p>
-              <p className="text-primary text-sm font-medium bg-[var(--card-color2)] p-3 rounded-lg mb-6 break-all">
+              <p className="text-primary font-medium bg-[var(--card-color2)] p-3 rounded-lg mb-6 break-all">
                 {selectedFilename}
               </p>
-              <div className="flex justify-center gap-3">
+              <div className="flex justify-center gap-4">
                 <button
                   onClick={() => setShowConfirmModal(false)}
                   disabled={isDeleting}
-                  className="cursor-pointer px-5 py-2 rounded-lg border border-[var(--border-divider)] hover:bg-[var(--hover-bg)] text-primary transition-colors text-sm font-medium"
+                  className="cursor-pointer px-6 py-2 rounded-lg border border-[var(--border-divider)] hover:bg-[var(--hover-bg)] text-primary transition-colors duration-200 text-sm font-medium"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={confirmDelete}
                   disabled={isDeleting}
-                  className="cursor-pointer bg-red-600 text-white px-5 py-2 rounded-lg hover:bg-red-700 disabled:opacity-50 transition-colors text-sm font-medium"
+                  className="cursor-pointer bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 disabled:opacity-50 transition-colors duration-200 text-sm font-medium"
                 >
                   {isDeleting ? "Deleting..." : "Delete"}
                 </button>
@@ -367,7 +371,7 @@ export default function ImagesTable({
                 <PaginationPrevious
                   onClick={() => handlePageChange(currentPage - 1)}
                   className={cn(
-                    "px-3 py-2 text-sm cursor-pointer",
+                    "cursor-pointer px-2 py-1 text-xs sm:px-3 sm:py-2 sm:text-sm text-primary",
                     currentPage === 1 && "pointer-events-none opacity-50"
                   )}
                 />
@@ -376,16 +380,16 @@ export default function ImagesTable({
               {getPaginationRange().map((page, index) => (
                 <PaginationItem key={index}>
                   {page === "..." ? (
-                    <PaginationEllipsis className="text-sm" />
+                    <PaginationEllipsis className="text-xs sm:text-base" />
                   ) : (
                     <PaginationLink
                       isActive={currentPage === page}
                       onClick={() => handlePageChange(Number(page))}
                       className={cn(
-                        "px-3 py-2 text-sm cursor-pointer",
+                        "cursor-pointer px-2 py-1 text-xs sm:px-3 sm:py-2 sm:text-sm transition-none",
                         currentPage === page
-                          ? "text-primary border border-[var(--border-divider)]"
-                          : "text-secondary hover:bg-[var(--hover-bg)] hover:text-[var(--text-accent)]"
+                          ? "text-blue-400 bg-blue-500/20 border-blue-500/40 shadow-sm hover:bg-blue-500/30 hover:text-blue-400"
+                          : "text-secondary hover:bg-[rgba(var(--text-primary-rgb),0.1)] hover:text-primary"
                       )}
                     >
                       {page}
@@ -398,7 +402,7 @@ export default function ImagesTable({
                 <PaginationNext
                   onClick={() => handlePageChange(currentPage + 1)}
                   className={cn(
-                    "px-3 py-2 text-sm cursor-pointer",
+                    "cursor-pointer px-2 py-1 text-xs sm:px-3 sm:py-2 sm:text-sm text-primary",
                     currentPage === totalPages && "pointer-events-none opacity-50"
                   )}
                 />
@@ -406,7 +410,7 @@ export default function ImagesTable({
             </PaginationContent>
           </Pagination>
 
-          <div className="text-center text-xs text-muted">
+          <div className="text-center text-xs text-muted mt-3">
             Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
             {Math.min(currentPage * itemsPerPage, filteredData.length)} of{" "}
             {filteredData.length} images

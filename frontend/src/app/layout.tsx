@@ -26,6 +26,8 @@ export const metadata: Metadata = {
   manifest: "/site.webmanifest",
 };
 
+import { Toaster } from "sonner";
+
 export default function RootLayout({
   children,
 }: {
@@ -46,7 +48,10 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.className} body-color`}>{children}</body>
+      <body className={`${inter.className} body-color`}>
+        {children}
+        <Toaster position="top-center" richColors />
+      </body>
     </html>
   );
 }

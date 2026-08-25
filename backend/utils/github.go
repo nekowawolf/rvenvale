@@ -21,19 +21,19 @@ import (
 	"github.com/nekowawolf/rvenvale/models"
 )
 
-func UploadToGitHub(file multipart.File, fileHeader *multipart.FileHeader) (string, string, string, error) {
+func UploadToGitHub(file multipart.File, fileHeader *multipart.FileHeader) (string, string, string, int64, error) {
 	token := os.Getenv("GITHUB_TOKEN")
 	username := os.Getenv("GITHUB_USERNAME")
 	repo := os.Getenv("GITHUB_REPO")
 	baseDir := os.Getenv("GITHUB_UPLOAD_DIR")
 
 	if token == "" || username == "" || repo == "" {
-		return "", "", "", fmt.Errorf("GitHub environment variables not set")
+		return "", "", "", 0, fmt.Errorf("GitHub environment variables not set")
 	}
 
 	fileBytes, err := io.ReadAll(file)
 	if err != nil {
-		return "", "", "", fmt.Errorf("failed to read file: %v", err)
+		return "", "", "", 0, fmt.Errorf("failed to read file: %v", err)
 	}
 
 	filename := fileHeader.Filename
@@ -73,12 +73,12 @@ func UploadToGitHub(file multipart.File, fileHeader *multipart.FileHeader) (stri
 
 	jsonBody, err := json.Marshal(body)
 	if err != nil {
-		return "", "", "", fmt.Errorf("failed to marshal body: %v", err)
+		return "", "", "", 0, fmt.Errorf("failed to marshal body: %v", err)
 	}
 
 	req, err := http.NewRequest("PUT", uploadURL, bytes.NewBuffer(jsonBody))
 	if err != nil {
-		return "", "", "", err
+		return "", "", "", 0, err
 	}
 
 	req.Header.Set("Authorization", "Bearer "+token)
@@ -87,18 +87,18 @@ func UploadToGitHub(file multipart.File, fileHeader *multipart.FileHeader) (stri
 	client := &http.Client{}
 	res, err := client.Do(req)
 	if err != nil {
-		return "", "", "", err
+		return "", "", "", 0, err
 	}
 	defer res.Body.Close()
 
 	if res.StatusCode >= 300 {
 		responseText, _ := io.ReadAll(res.Body)
-		return "", "", "", fmt.Errorf("GitHub upload failed (%d): %s", res.StatusCode, responseText)
+		return "", "", "", 0, fmt.Errorf("GitHub upload failed (%d): %s", res.StatusCode, responseText)
 	}
 
 	var ghResp models.GitHubUploadResponse
 	if err := json.NewDecoder(res.Body).Decode(&ghResp); err != nil {
-		return "", "", "", fmt.Errorf("failed to decode GitHub response: %v", err)
+		return "", "", "", 0, fmt.Errorf("failed to decode GitHub response: %v", err)
 	}
 
 	parts := strings.Split(ghResp.Content.Path, "/")
@@ -109,7 +109,9 @@ func UploadToGitHub(file multipart.File, fileHeader *multipart.FileHeader) (stri
 
 	finalURL := fmt.Sprintf("https://%s.github.io/%s/%s", username, repo, escapedPath)
 
-	return finalURL, ghResp.Content.Sha, ghResp.Content.Path, nil
+	finalSize := int64(len(uploadBytes))
+
+	return finalURL, ghResp.Content.Sha, ghResp.Content.Path, finalSize, nil
 }
 
 func DeleteFromGitHub(path, sha string) error {

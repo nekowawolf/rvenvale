@@ -47,6 +47,7 @@ body {
 
   /* Text */
   --text-primary: #f9fafb;
+  --text-primary-rgb: 249, 250, 251;
   --text-secondary: #d1d5db;
   --text-muted: #9ca3af;
   --text-accent: #a5b4fc;
@@ -85,6 +86,7 @@ body {
 
   /* Text */
   --text-primary: #111827;
+  --text-primary-rgb: 17, 24, 39;
   --text-secondary: #6b7280;
   --text-muted: #9ca3af;
   --text-accent: #4f46e5;

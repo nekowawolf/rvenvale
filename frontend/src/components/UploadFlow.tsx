@@ -17,29 +17,34 @@ export default function UploadFlow() {
       <div className="min-w-[768px] flex items-center justify-between relative px-8">
         
         {/* Background Line */}
-        <div className="absolute top-7 left-12 right-12 h-0.5 bg-[var(--border-divider)] z-0 rounded-full overflow-hidden">
+        <div className="absolute top-7 left-8 right-8 h-0.5 bg-[var(--border-divider)] z-0 rounded-full overflow-hidden">
           {/* Animated Moving Line */}
           <motion.div
             className="h-full bg-blue-600"
             initial={{ width: "0%" }}
-            animate={{ width: "100%" }}
+            animate={{ width: ["0%", "100%", "100%"] }}
             transition={{
-              duration: 2.5,
-              ease: "linear",
+              duration: 3.5,
+              ease: "easeInOut",
               repeat: Infinity,
+              times: [0, 0.7, 1],
             }}
           />
         </div>
 
         {/* Moving Dot over the line */}
         <motion.div
-          className="absolute top-7 left-12 w-2 h-2 rounded-full bg-[var(--text-primary)] shadow-md z-0 -mt-[3px]"
-          initial={{ left: "3rem" }}
-          animate={{ left: "calc(100% - 3rem)" }}
+          className="absolute top-7 w-2 h-2 rounded-full shadow-md z-0 -mt-[3px]"
+          initial={{ left: "2rem", backgroundColor: "var(--text-primary)" }}
+          animate={{ 
+            left: ["2rem", "calc(100% - 2rem)", "calc(100% - 2rem)"],
+            backgroundColor: ["var(--text-primary)", "#2563eb", "#2563eb"]
+          }}
           transition={{
-            duration: 2.5,
-            ease: "linear",
+            duration: 3.5,
+            ease: "easeInOut",
             repeat: Infinity,
+            times: [0, 0.7, 1],
           }}
         />
 

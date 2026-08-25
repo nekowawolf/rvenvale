@@ -20,7 +20,17 @@ function formatFileSize(bytes: number): string {
 
 export default function HomePage() {
   const { data, loading: imagesLoading, error: imagesError, handleDelete, refetch: refetchImages } = useImageData();
-  const { stats, loading: statsLoading } = useImageStats();
+  const { stats, loading: statsLoading, refetch: refetchStats } = useImageStats();
+
+  const handleUploadSuccess = () => {
+    refetchImages();
+    refetchStats();
+  };
+
+  const handleDeleteWithStats = async (id: string) => {
+    await handleDelete(id);
+    refetchStats();
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -78,7 +88,7 @@ export default function HomePage() {
 
         {/* ===== UPLOAD SECTION ===== */}
         <section className="mb-6">
-          <UploadArea onUploadSuccess={refetchImages} />
+          <UploadArea onUploadSuccess={handleUploadSuccess} />
         </section>
 
         {/* ===== ANALYTICS SECTION ===== */}
@@ -117,7 +127,7 @@ export default function HomePage() {
             data={data}
             loading={imagesLoading}
             error={imagesError}
-            onDelete={handleDelete}
+            onDelete={handleDeleteWithStats}
           />
         </section>
       </main>

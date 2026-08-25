@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { FiUploadCloud, FiX, FiCheckCircle } from "react-icons/fi";
+import { FiUploadCloud } from "react-icons/fi";
 import { uploadImage } from "@/services/imageService";
+import { toast } from "sonner";
 
 interface UploadAreaProps {
   onUploadSuccess: () => void;
@@ -11,8 +12,6 @@ interface UploadAreaProps {
 export default function UploadArea({ onUploadSuccess }: UploadAreaProps) {
   const [dragActive, setDragActive] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleDrag = (e: React.DragEvent) => {
@@ -43,31 +42,31 @@ export default function UploadArea({ onUploadSuccess }: UploadAreaProps) {
   };
 
   const handleUpload = async (file: File) => {
-    setError(null);
-    setSuccessMsg(null);
-    
-    // Validasi basic
     if (!file.type.startsWith("image/")) {
-      setError("Please upload an image file (PNG, JPG, WebP, etc).");
+      toast.error("Please upload an image file (PNG, JPG, WebP, etc).");
       return;
     }
     if (file.size > 10 * 1024 * 1024) {
-      setError("File size must be less than 10MB.");
+      toast.error("File size must be less than 10MB.");
       return;
     }
 
     setIsUploading(true);
     try {
       await uploadImage(file);
-      setSuccessMsg("Image successfully uploaded and processed to CDN!");
-      onUploadSuccess(); // Trigger refetch
-      if (inputRef.current) inputRef.current.value = ""; // Reset input
+      toast.success("Image successfully uploaded and processed to CDN!");
+      onUploadSuccess();
+      if (inputRef.current) inputRef.current.value = "";
     } catch (err: any) {
-      const msg = err.message || "Failed to upload image. Please try again.";
-      if (msg.includes("Failed to fetch") || msg.includes("NetworkError")) {
-        setError("This is a live preview. Please clone the project and self-host to upload images.");
+      const msg = err.message || "";
+      if (
+        msg.includes("Failed to fetch") || 
+        msg.includes("NetworkError") || 
+        msg.includes("Failed to upload image")
+      ) {
+        toast.error("Please clone the project and self-host to upload images.");
       } else {
-        setError(msg);
+        toast.error(msg || "Failed to upload image.");
       }
     } finally {
       setIsUploading(false);
@@ -118,25 +117,10 @@ export default function UploadArea({ onUploadSuccess }: UploadAreaProps) {
             <p className="text-sm font-medium text-primary">
               <span className="text-blue-500">Click to upload</span> or drag and drop
             </p>
-            <p className="text-xs text-muted">SVG, PNG, JPG, GIF or WebP (max. 10MB)</p>
+            <p className="text-xs text-muted">SVG, PNG, JPG or WebP (max. 10MB)</p>
           </div>
         )}
       </div>
-
-      {/* Messages */}
-      {error && (
-        <div className="mt-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20 flex items-start gap-3">
-          <FiX className="text-red-500 shrink-0 mt-0.5" />
-          <p className="text-sm text-red-500">{error}</p>
-        </div>
-      )}
-      
-      {successMsg && (
-        <div className="mt-4 p-3 rounded-lg bg-green-500/10 border border-green-500/20 flex items-start gap-3">
-          <FiCheckCircle className="text-green-500 shrink-0 mt-0.5" />
-          <p className="text-sm text-green-500">{successMsg}</p>
-        </div>
-      )}
     </div>
   );
 }
