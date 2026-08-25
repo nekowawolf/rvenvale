@@ -1,0 +1,279 @@
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ===========================
+   DARK MODE (default)
+   =========================== */
+:root {
+  --body-color: #111827;
+  --fill-color: #1a2540;
+  --card-color: #1a2540;
+  --card-color2: #161e34d7;
+  --card-color3: #161e34a0;
+  --border-color: #3d4f6f;
+  --border-divider: rgba(255, 255, 255, 0.1);
+  --stack-chip-bg: rgba(37, 99, 235, 0.18);
+  --stack-chip-text: #a5b4fc;
+  --stack-chip-border: rgba(37, 99, 235, 0.45);
+  --fill-color-rgb: 17, 24, 39;
+
+  /* Text */
+  --text-primary: #f9fafb;
+  --text-secondary: #d1d5db;
+  --text-muted: #9ca3af;
+  --text-accent: #a5b4fc;
+
+  /* Interactive */
+  --hover-bg: rgba(255, 255, 255, 0.05);
+  --hover-bg-accent: #312e81;
+  --button-border: #3d4f6f;
+  --button-hover: rgba(255, 255, 255, 0.05);
+
+  /* Dropdown / Overlay */
+  --dropdown-bg: #1a2540;
+  --dropdown-border: #3d4f6f;
+  --dropdown-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  --overlay-bg: rgba(0, 0, 0, 0.6);
+
+  /* Scrollbar */
+  --scrollbar-thumb-rgb: 255, 255, 255;
+}
+
+/* ===========================
+   LIGHT MODE (toggled with .darkmode)
+   =========================== */
+.darkmode {
+  --body-color: #f3f4f6;
+  --fill-color: #ffffff;
+  --card-color: #ffffff;
+  --card-color2: rgba(17, 21, 40, 0.05);
+  --card-color3: rgba(17, 21, 40, 0.03);
+  --border-color: #959090;
+  --border-divider: rgba(0, 0, 0, 0.1);
+  --stack-chip-bg: rgba(59, 130, 246, 0.1);
+  --stack-chip-text: #60a5fa;
+  --stack-chip-border: rgba(59, 130, 246, 0.2);
+  --fill-color-rgb: 255, 255, 255;
+
+  /* Text */
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+  --text-accent: #4f46e5;
+
+  /* Interactive */
+  --hover-bg: #f9fafb;
+  --hover-bg-accent: #eef2ff;
+  --button-border: rgba(0, 0, 0, 0.1);
+  --button-hover: #f3f4f6;
+
+  /* Dropdown / Overlay */
+  --dropdown-bg: #ffffff;
+  --dropdown-border: rgba(0, 0, 0, 0.1);
+  --dropdown-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --overlay-bg: rgba(0, 0, 0, 0.4);
+
+  /* Scrollbar */
+  --scrollbar-thumb-rgb: 17, 24, 39;
+}
+
+/* ===========================
+   UTILITY CLASSES
+   =========================== */
+.body-color {
+  background-color: var(--body-color);
+}
+
+.card-color {
+  background-color: var(--card-color);
+}
+
+.card-color2 {
+  background-color: var(--card-color2);
+}
+
+.fill-color {
+  background-color: var(--fill-color);
+}
+
+.text-fill-color {
+  color: var(--fill-color);
+}
+
+.text-fill-color\/60 {
+  color: rgba(var(--fill-color-rgb), 0.6);
+}
+
+.text-fill-color\/70 {
+  color: rgba(var(--fill-color-rgb), 0.7);
+}
+
+.text-fill-color\/80 {
+  color: rgba(var(--fill-color-rgb), 0.8);
+}
+
+.border-color {
+  border-color: var(--border-color);
+  border: 1px solid var(--border-color);
+}
+
+.border-divider-b {
+  border-bottom: 1px solid var(--border-divider);
+}
+
+.border-border-divider {
+  border-color: var(--border-divider);
+}
+
+/* Text */
+.text-primary {
+  color: var(--text-primary);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+.text-accent {
+  color: var(--text-accent);
+}
+
+/* Hover */
+.hover-bg {
+  background-color: var(--hover-bg);
+}
+
+.hover-bg-accent {
+  background-color: var(--hover-bg-accent);
+}
+
+/* Dropdown */
+.dropdown-bg {
+  background-color: var(--dropdown-bg);
+}
+
+.dropdown-border {
+  border-color: var(--dropdown-border);
+}
+
+.dropdown-shadow {
+  box-shadow: var(--dropdown-shadow);
+}
+
+/* Overlay */
+.overlay-bg {
+  background-color: var(--overlay-bg);
+}
+
+/* Button */
+.button-border {
+  border-color: var(--button-border);
+}
+
+.button-hover {
+  background-color: var(--button-hover);
+}
+
+/* Glass Card */
+.glass-card {
+  background-color: var(--card-color2);
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(8px);
+}
+
+/* Card Hover */
+.card-hover {
+  transition: none;
+}
+
+.card-hover:hover {
+  transition:
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+.darkmode .card-hover:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Hide scrollbar */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Theme toggle icons */
+.theme-icon-sun {
+  display: block;
+}
+
+.theme-icon-moon {
+  display: none;
+}
+
+.darkmode .theme-icon-sun {
+  display: none;
+}
+
+.darkmode .theme-icon-moon {
+  display: block;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--border-divider);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(var(--scrollbar-thumb-rgb), 0.3);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--scrollbar-thumb-rgb), 0.5);
+}
