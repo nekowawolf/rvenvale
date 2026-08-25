@@ -48,13 +48,17 @@ Rvenvale is a self-hosted image hosting platform that transforms, optimizes, and
 
 ## How to Use
 
-### 1. Clone the repository
+### 1. Prepare your GitHub CDN Repository
+Before starting, you need a public GitHub repository with **GitHub Pages** enabled to act as your CDN. 
+*Example CDN repository:* [nekowawolf/rvenvale-cdn](https://github.com/nekowawolf/rvenvale-cdn)
+
+### 2. Clone the repository
 ```bash
 git clone https://github.com/nekowawolf/rvenvale.git
 cd rvenvale
 ```
 
-### 2. Configure Environment Variables
+### 3. Configure Environment Variables
 
 **Backend Configuration:**
 Navigate to the `backend` folder and create a `.env` file. Replace the values with your actual credentials:
@@ -75,14 +79,14 @@ Navigate to the `frontend` folder and create a `.env` file:
 NEXT_PUBLIC_API_BASE_URL=http://localhost:3000/rvenvale
 ```
 
-### 3. Run the Backend
+### 4. Run the Backend
 ```bash
 cd backend
 go mod tidy
 go run main.go
 ```
 
-### 4. Run the Frontend
+### 5. Run the Frontend
 ```bash
 cd frontend
 npm install
