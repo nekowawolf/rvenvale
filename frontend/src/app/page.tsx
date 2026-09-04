@@ -6,6 +6,7 @@ import UploadFlow from "@/components/UploadFlow";
 import UploadArea from "@/components/UploadArea";
 import StatCard from "@/components/StatCard";
 import ImagesTable from "@/components/ImagesTable";
+import Footer from "@/components/Footer";
 import { useImageData } from "@/hooks/useImageData";
 import { useImageStats } from "@/hooks/useImageStats";
 import { FaImage, FaDatabase, FaGithub } from "react-icons/fa";
@@ -133,35 +134,7 @@ export default function HomePage() {
       </main>
 
       {/* ===== FOOTER ===== */}
-      <footer className="w-full border-t border-[var(--border-divider)] py-8 px-4">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          {/* Left — copyright */}
-          <div className="flex items-center gap-2 text-sm text-secondary">
-            <span>© 2026 Rvenvale</span>
-            <span className="text-muted">·</span>
-            <span className="text-muted">Powered by</span>
-            <a
-              href="https://www.nekowawolf.xyz/ecosystem"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-500 hover:text-blue-400 transition-colors font-medium cursor-pointer inline-block mt-1 sm:mt-0"
-            >
-              Nww Ecosystem
-            </a>
-          </div>
-
-          {/* Right — contribute */}
-          <a
-            href="https://github.com/nekowawolf/rvenvale"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border border-[var(--border-divider)] bg-[var(--fill-color)] text-primary hover:bg-[var(--hover-bg)] hover:border-indigo-500/40 transition-all duration-200"
-          >
-            <FaGithub size={15} className="text-blue-600" />
-            Contribute on GitHub
-          </a>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
