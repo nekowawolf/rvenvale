@@ -13,8 +13,24 @@ export const metadata: Metadata = {
   keywords: ["github cdn", "image hosting", "open source", "rvenvale", "github pages"],
   openGraph: {
     title: "rvenvale — GitHub CDN Image Hosting",
-    description: "Open-source GitHub CDN image hosting platform powered by GitHub Pages.",
+    description: "Open-source GitHub CDN image hosting platform powered by Nww Ecosystem.",
     type: "website",
+    url: "https://rvenvale.nekowawolf.xyz",
+    siteName: "Rvenvale",
+    images: [
+      {
+        url: "https://cdn.nekowawolf.xyz/image/2026/1789700050_og_rv.webp",
+        width: 1200,
+        height: 630,
+        alt: "Rvenvale — Self-Hosted GitHub CDN Image Hosting",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "rvenvale — GitHub CDN Image Hosting",
+    description: "Open-source GitHub CDN image hosting platform powered by Nww Ecosystem.",
+    images: ["https://cdn.nekowawolf.xyz/image/2026/1789700050_og_rv.webp"],
   },
   icons: {
     icon: [
