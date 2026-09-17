@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="relative z-20 w-full max-w-7xl mx-auto px-6 pt-8 pb-20 sm:pt-10 sm:pb-8 mt-auto flex flex-col-reverse sm:flex-row items-center justify-between gap-6">
         {/* Left — copyright & info */}
         <div className="flex flex-wrap items-center justify-center gap-2 text-sm text-fill-color text-secondary">
-          <span>© 2026 Rvenvale</span>
+          <span>&copy; {new Date().getFullYear()} Rvenvale</span>
           <span className="text-muted">·</span>
           <span className="text-muted">Powered by</span>
           <a
